@@ -1,5 +1,5 @@
 from pathlib import Path
-from pypdf import PdfReader
+import pymupdf
 
 RAW_DIR = Path("data/raw")
 
@@ -14,16 +14,22 @@ def is_english(text):
 
 def remove_gazette_header(text):
     lines = text.splitlines()
-    kept = [line for line in lines
-            if "GAZETTE OF INDIA" not in " ".join(line.split()).upper()]
+    if lines and lines[0].strip().isdigit():
+        lines = lines[1:]
+    kept = []
+    for line in lines:
+        clean = " ".join(line.split()).upper()
+        if "GAZETTE OF INDIA" in clean or clean.startswith("[PART II"):
+            continue
+        kept.append(line)
     return "\n".join(kept)
 
 def load_pdf(path):
-    reader = PdfReader(path)
+    doc = pymupdf.open(path)
     pages = []
     skipped = []
-    for i, page in enumerate(reader.pages):
-        text = remove_gazette_header(page.extract_text() or "")
+    for i, page in enumerate(doc):
+        text = remove_gazette_header(page.get_text())
         if not is_english(text):
             skipped.append(i + 1)
             continue

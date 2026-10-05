@@ -13,15 +13,17 @@ def is_english(text):
     return hits >= 2 and hits / len(words) >= 0.01
 
 def remove_gazette_header(text):
-    lines = text.splitlines()
-    if lines and lines[0].strip().isdigit():
-        lines = lines[1:]
     kept = []
-    for line in lines:
+    for line in text.splitlines():
         clean = " ".join(line.split()).upper()
-        if "GAZETTE OF INDIA" in clean or clean.startswith("[PART II"):
+        if ("GAZETTE OF INDIA" in clean or clean.startswith("[PART II")
+                or "HKKJR DK JKTI=K" in clean or "HKKX II" in clean):
             continue
         kept.append(line)
+    while kept and not kept[0].strip():
+        kept.pop(0)
+    if kept and kept[0].strip().isdigit():
+        kept = kept[1:]
     return "\n".join(kept)
 
 def load_pdf(path):

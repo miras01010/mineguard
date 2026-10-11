@@ -25,17 +25,21 @@ Rules:
 6. Explain the reason behind a safety rule only if the passages themselves state it.
 7. Include any thresholds or conditions that decide when a rule applies, even if they appear in a different clause or sub-regulation from the rule itself. For example, if a rule applies "when gas is detected", include the limits that define detection.
 """
+def page_label(p):
+    if p["start_page"] == p["end_page"]:
+        return f"page {p['start_page']}"
+    return f"pages {p['start_page']}-{p['end_page']}"
 
-def build_context(chunks):
+def build_context(passages):
     blocks = []
-    for i, (text, meta) in enumerate(chunks, start=1):
-        name = DOC_NAMES.get(meta["source"], meta["source"])
-        blocks.append(f"[{i}] ({name}, page {meta['page']})\n{text}")
+    for i, p in enumerate(passages, start=1):
+        name = DOC_NAMES.get(p["source"], p["source"])
+        blocks.append(f"[{i}] ({name}, {page_label(p)})\n{p['text']}")
     return "\n\n".join(blocks)
 
 def answer(question, k=5):
-    chunks = search_with_neighbours(question, k=k)
-    context = build_context(chunks)
+    passages = search_with_neighbours(question, k=k)
+    context = build_context(passages)
     response = client.chat.completions.create(
         model=LLM_MODEL,
         messages=[
@@ -44,13 +48,13 @@ def answer(question, k=5):
         ],
         temperature=0,
     )
-    return response.choices[0].message.content, chunks
+    return response.choices[0].message.content, passages
 
 if __name__ == "__main__":
     question = input("Ask a question: ")
-    reply, chunks = answer(question)
+    reply, passages = answer(question)
     print("\n" + reply)
     print("\nSources:")
-    for i, (text, meta) in enumerate(chunks, start=1):
-        print(f"  [{i}] {meta['source']}, page {meta['page']}")
+    for i, p in enumerate(passages, start=1):
+        print(f"  [{i}] {p['source']}, {page_label(p)}")
     

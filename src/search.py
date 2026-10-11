@@ -1,4 +1,5 @@
 import chromadb
+from chunk import OVERLAP_WORDS
 from sentence_transformers import SentenceTransformer
 
 EMBED_MODEL = "all-MiniLM-L6-v2"
@@ -44,7 +45,28 @@ def search_with_neighbours(question, k=5):
             if m in chunks and chunks[m][1]["source"]==chunks[n][1]["source"]:
                 keep.add(m)
 
-    return [chunks[m] for m in sorted(keep)]
+    return merge_passages(sorted(keep), chunks)
+
+def merge_passages(numbers, chunks):
+    passages = []
+    for i, n in enumerate(numbers):
+        text, meta = chunks[n]
+        if i > 0:
+            prev_meta = chunks[numbers[i - 1]][1]
+        continues = i>0 and n-numbers[i-1]==1 and meta["source"]==prev_meta["source"]
+        if continues:
+            if meta["page"] == prev_meta["page"]:
+                text = " ".join(text.split()[OVERLAP_WORDS:])
+            passages[-1]["text"] += " " + text
+            passages[-1]["end_page"] = meta["page"]
+        else:
+            passages.append({
+                "source": meta["source"],
+                "start_page": meta["page"],
+                "end_page": meta["page"],
+                "text": text,
+            })
+    return passages
 
 if __name__ == "__main__":
     question = input("Ask a question: ")

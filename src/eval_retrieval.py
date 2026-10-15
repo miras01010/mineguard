@@ -9,11 +9,16 @@ def run(k=5):
     for case in cases:
         results = search(case["question"], k=k)
         found = [(m["source"], m["page"]) for m in results["metadatas"][0]]
-        expected = (case["source"], case["page"])
+        expected = {(case["source"], p) for p in case["pages"]}
 
-        if expected in found:
+        rank = None                                                   
+        for i, pair in enumerate(found):
+            if pair in expected:
+                rank = i + 1
+                break
+
+        if rank is not None:                                          
             hits += 1
-            rank = found.index(expected) + 1
             print(f"PASS (rank {rank}): {case['question']}")
         else:
             print(f"FAIL: {case['question']}")

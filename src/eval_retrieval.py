@@ -4,7 +4,7 @@ from search import search
 def run(k=5):
     with open("evals/questions.json", encoding="utf-8") as f:
         cases = json.load(f)
-
+    rr_total=0
     hits = 0
     for case in cases:
         results = search(case["question"], k=k)
@@ -19,12 +19,14 @@ def run(k=5):
 
         if rank is not None:                                          
             hits += 1
+            rr_total+=1/rank
             print(f"PASS (rank {rank}): {case['question']}")
         else:
             print(f"FAIL: {case['question']}")
             print(f"      expected {expected}, got {found}")
 
     print(f"\nHit rate @{k}: {hits}/{len(cases)}")
+    print(f"MRR: {rr_total / len(cases):.3f}")
 
 if __name__ == "__main__":
     run()

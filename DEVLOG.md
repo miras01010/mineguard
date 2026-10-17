@@ -60,3 +60,6 @@
 - After fixing the key: __/20.
 - TODO: multi-document answers (manager = Metal p.26 AND Coal p.173);
   query rewriting to fix casual-wording rank drops.
+  - Upgraded eval format to multi-document answers (e.g. manager question = Metal p.26 OR Coal p.173).
+- 20/20 @5. Hinglish gas question rank 4 → 1, but only because the key now accepts Metal p.89. The system itself didn't change; the measurement got more accurate.
+- Remaining real weakness: "breathing sets" (casual) at rank 5 vs "breathing apparatus" (formal) at rank 3.

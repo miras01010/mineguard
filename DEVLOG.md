@@ -39,3 +39,24 @@
 - Verified the Metalliferous 1.25% citation against p.89 ✅
 - Streamlit web UI working → MILESTONE 1 COMPLETE.
 - TODO: show only cited sources; harder casual eval questions; allow multiple correct pages per eval question.
+
+## Oct 15: Fairer eval format
+- Eval questions now accept multiple correct pages ("pages": [78, 79, 80]).
+- Dust question now passes; original 12 questions: 12/12.
+
+## Oct 17: Harder questions, and the answer key was wrong
+- Added 8 casual/Hinglish rewrites of existing questions → 18/20 initially.
+- Real weakness found: casual wording pushes the right answer down the ranking
+  (gas: rank 1 → 4 in Hinglish; breathing apparatus: rank 3 → 5).
+- Both "failures" turned out to be answer-key mistakes, not search failures:
+  - Lamp question: search found Metalliferous reg. 41(8)(a) (p.31), the actual
+    "what to do when your safety lamp meets gas" rule. Better than my expected answer.
+  - Manager question: search found Metal reg. 34 (p.26) and Coal reg. 27 (p.173),
+    the actual appointment rules.
+- Lesson: check the answer key before "fixing" search. Forcing the old pages
+  would have made MineGuard worse.
+- Domain insight: coal mine manager qualification depends on monthly output;
+  metal mine depends on number of workers.
+- After fixing the key: __/20.
+- TODO: multi-document answers (manager = Metal p.26 AND Coal p.173);
+  query rewriting to fix casual-wording rank drops.

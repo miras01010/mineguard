@@ -1,102 +1,125 @@
 [
   {
     "question": "When must workers be withdrawn because of inflammable gas?",
-    "source": "Coal_Mines_Regulation_2017_Noti.pdf",
-    "pages": [251]
+    "answers": [
+      {"source": "Coal_Mines_Regulation_2017_Noti.pdf", "pages": [251]},
+      {"source": "Metalliferous1961.pdf", "pages": [89]}
+    ]
   },
   {
     "question": "Who is an overman?",
-    "source": "Coal_Mines_Regulation_2017_Noti.pdf",
-    "pages": [162]
+    "answers": [
+      {"source": "Coal_Mines_Regulation_2017_Noti.pdf", "pages": [162]}
+    ]
   },
   {
     "question": "How many two-hour breathing apparatus must a rescue station keep?",
-    "source": "Mines Rescue Rules, 1985.pdf",
-    "pages": [15]
+    "answers": [
+      {"source": "Mines Rescue Rules, 1985.pdf", "pages": [15]}
+    ]
   },
   {
     "question": "Where should a rescue station be established?",
-    "source": "Mines Rescue Rules, 1985.pdf",
-    "pages": [3]
+    "answers": [
+      {"source": "Mines Rescue Rules, 1985.pdf", "pages": [3]}
+    ]
   },
   {
     "question": "What are the qualifications of a rescue room in-charge?",
-    "source": "Mines Rescue Rules, 1985.pdf",
-    "pages": [5]
+    "answers": [
+      {"source": "Mines Rescue Rules, 1985.pdf", "pages": [5]}
+    ]
   },
   {
     "question": "What are the duties of the manager in rescue work?",
-    "source": "Mines Rescue Rules, 1985.pdf",
-    "pages": [9]
+    "answers": [
+      {"source": "Mines Rescue Rules, 1985.pdf", "pages": [9]}
+    ]
   },
   {
     "question": "Who can be granted a Manager's certificate?",
-    "source": "Metalliferous1961.pdf",
-    "pages": [18]
+    "answers": [
+      {"source": "Metalliferous1961.pdf", "pages": [18]}
+    ]
   },
   {
     "question": "What are the general requirements of mine plans and sections?",
-    "source": "Metalliferous1961.pdf",
-    "pages": [42]
+    "answers": [
+      {"source": "Metalliferous1961.pdf", "pages": [42]}
+    ]
   },
   {
     "question": "What are the provisions to prevent the liberation or accumulation of dust?",
-    "source": "Metalliferous1961.pdf",
-    "pages": [78, 79, 80]
+    "answers": [
+      {"source": "Metalliferous1961.pdf", "pages": [78, 79, 80]}
+    ]
   },
   {
     "question": "Describe ventilation standards",
-    "source": "Metalliferous1961.pdf",
-    "pages": [85]
+    "answers": [
+      {"source": "Metalliferous1961.pdf", "pages": [85]}
+    ]
   },
   {
     "question": "What powers do inspectors and the Chief Inspector hold?",
-    "source": "MinesAct1952.pdf",
-    "pages": [4]
+    "answers": [
+      {"source": "MinesAct1952.pdf", "pages": [4]}
+    ]
   },
   {
     "question": "What are the underground work hours?",
-    "source": "MinesAct1952.pdf",
-    "pages": [15]
+    "answers": [
+      {"source": "MinesAct1952.pdf", "pages": [15]}
+    ]
   },
   {
     "question": "How many hours can I work underground in a day?",
-    "source": "MinesAct1952.pdf",
-    "pages": [15]
+    "answers": [
+      {"source": "MinesAct1952.pdf", "pages": [15]}
+    ]
   },
   {
     "question": "How many breathing sets should the rescue room have?",
-    "source": "Mines Rescue Rules, 1985.pdf",
-    "pages": [15]
+    "answers": [
+      {"source": "Mines Rescue Rules, 1985.pdf", "pages": [15]}
+    ]
   },
   {
     "question": "gas detect ho jaye toh kya karna chahiye?",
-    "source": "Coal_Mines_Regulation_2017_Noti.pdf",
-    "pages": [250, 251]
+    "answers": [
+      {"source": "Coal_Mines_Regulation_2017_Noti.pdf", "pages": [250, 251]},
+      {"source": "Metalliferous1961.pdf", "pages": [89]}
+    ]
   },
   {
     "question": "My safety lamp flame went low, what should I do?",
-    "source": "Coal_Mines_Regulation_2017_Noti.pdf",
-    "pages": [250, 251]
+    "answers": [
+      {"source": "Metalliferous1961.pdf", "pages": [31]}
+    ]
   },
   {
     "question": "What's the difference between an overman and a sirdar?",
-    "source": "Coal_Mines_Regulation_2017_Noti.pdf",
-    "pages": [162]
+    "answers": [
+      {"source": "Coal_Mines_Regulation_2017_Noti.pdf", "pages": [162]}
+    ]
   },
   {
     "question": "dust control rules",
-    "source": "Metalliferous1961.pdf",
-    "pages": [78, 79, 80]
+    "answers": [
+      {"source": "Metalliferous1961.pdf", "pages": [78, 79, 80]}
+    ]
   },
   {
     "question": "How much fresh air does a metal mine need?",
-    "source": "Metalliferous1961.pdf",
-    "pages": [85]
+    "answers": [
+      {"source": "Metalliferous1961.pdf", "pages": [85]}
+    ]
   },
   {
     "question": "Who's allowed to become a mine manager?",
-    "source": "Metalliferous1961.pdf",
-    "pages": [18]
+    "answers": [
+      {"source": "Metalliferous1961.pdf", "pages": [18, 26]},
+      {"source": "Coal_Mines_Regulation_2017_Noti.pdf", "pages": [173]}
+    ]
   }
 ]

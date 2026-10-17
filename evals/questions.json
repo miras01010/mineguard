@@ -42,7 +42,7 @@
   {
     "question": "What are the provisions to prevent the liberation or accumulation of dust?",
     "source": "Metalliferous1961.pdf",
-    "pages": [78,79,80]
+    "pages": [78, 79, 80]
   },
   {
     "question": "Describe ventilation standards",
@@ -58,5 +58,45 @@
     "question": "What are the underground work hours?",
     "source": "MinesAct1952.pdf",
     "pages": [15]
+  },
+  {
+    "question": "How many hours can I work underground in a day?",
+    "source": "MinesAct1952.pdf",
+    "pages": [15]
+  },
+  {
+    "question": "How many breathing sets should the rescue room have?",
+    "source": "Mines Rescue Rules, 1985.pdf",
+    "pages": [15]
+  },
+  {
+    "question": "gas detect ho jaye toh kya karna chahiye?",
+    "source": "Coal_Mines_Regulation_2017_Noti.pdf",
+    "pages": [250, 251]
+  },
+  {
+    "question": "My safety lamp flame went low, what should I do?",
+    "source": "Coal_Mines_Regulation_2017_Noti.pdf",
+    "pages": [250, 251]
+  },
+  {
+    "question": "What's the difference between an overman and a sirdar?",
+    "source": "Coal_Mines_Regulation_2017_Noti.pdf",
+    "pages": [162]
+  },
+  {
+    "question": "dust control rules",
+    "source": "Metalliferous1961.pdf",
+    "pages": [78, 79, 80]
+  },
+  {
+    "question": "How much fresh air does a metal mine need?",
+    "source": "Metalliferous1961.pdf",
+    "pages": [85]
+  },
+  {
+    "question": "Who's allowed to become a mine manager?",
+    "source": "Metalliferous1961.pdf",
+    "pages": [18]
   }
 ]

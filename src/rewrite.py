@@ -6,11 +6,12 @@ load_dotenv()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 REWRITE_MODEL = "openai/gpt-oss-20b"
 
-REWRITE_PROMPT = """You turn questions about Indian mining safety law into search queries.
-Rewrite the question using the formal vocabulary of Indian mining regulations,
-for example "shotfirer" instead of "blasting guy", or "cage" instead of "lift".
-Translate any Hindi or Hinglish into English.
-Return only the rewritten query, with no explanation."""
+REWRITE_PROMPT = """You turn questions about Indian mining safety law into short search queries.
+Rules:
+- Keep the user's key terms; only add the formal legal term alongside them if it differs.
+- Translate any Hindi or Hinglish into English.
+- Do NOT add phrases like "under Indian law", "in mining operations" or "regulations".
+- Maximum 15 words. Return only the query, with no explanation."""
 
 def rewrite_query(question):
     response = client.chat.completions.create(

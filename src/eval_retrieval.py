@@ -1,5 +1,5 @@
 import json
-from search import search
+from search import search_multi
 from rewrite import rewrite_query
 
 def run(k=5, rewrite=False):
@@ -8,10 +8,14 @@ def run(k=5, rewrite=False):
     rr_total=0
     hits = 0
     for case in cases:
-        query=rewrite_query(case["question"]) if rewrite else case["question"]
-        print(f"  → {query}")
-        results = search(query, k=k)
-        found = [(m["source"], m["page"]) for m in results["metadatas"][0]]
+        queries = [case["question"]]
+        if rewrite:
+            rewritten = rewrite_query(case["question"])
+            if rewritten:
+                queries.append(rewritten)
+                print(f"  → {rewritten}")
+        ranked = search_multi(queries, k=k)
+        found = [(meta["source"], meta["page"]) for text, meta, dist in ranked]
         expected = {(a["source"], p) for a in case["answers"] for p in a["pages"]}
 
         rank = None                                                   

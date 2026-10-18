@@ -14,6 +14,19 @@ def search(question, k=3):
     query_embedding = model.encode([question]).tolist()
     return collection.query(query_embeddings=query_embedding, n_results=k)
 
+def search_multi(queries, k=5, fetch_k=10, rrf_k=60):
+    scores = {}
+    chunks = {}
+    for q in queries:
+        results = search(q, k=fetch_k)
+        for rank, (cid, text, meta) in enumerate(
+            zip(results["ids"][0], results["documents"][0], results["metadatas"][0]), start=1
+        ):
+            scores[cid] = scores.get(cid, 0) + 1/(rank+rrf_k)
+            chunks[cid] = (text, meta)
+    ranked = sorted(scores, key=lambda cid: scores[cid], reverse=True)
+    return [(chunks[cid][0], chunks[cid][1], scores[cid]) for cid in ranked[:k]]
+
 def chunk_number(chunk_id):
     return int(chunk_id.split("-")[1])
 

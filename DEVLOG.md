@@ -63,3 +63,14 @@
   - Upgraded eval format to multi-document answers (e.g. manager question = Metal p.26 OR Coal p.173).
 - 20/20 @5. Hinglish gas question rank 4 → 1, but only because the key now accepts Metal p.89. The system itself didn't change; the measurement got more accurate.
 - Remaining real weakness: "breathing sets" (casual) at rank 5 vs "breathing apparatus" (formal) at rank 3.
+
+## Oct 18: MRR metric and a failed experiment
+- Added MRR (mean reciprocal rank) to the eval. Baseline: 20/20 @5, MRR 0.777.
+- Tried LLM query rewriting (casual → formal regulation language before search).
+- Result: WORSE. 16/20, MRR 0.568. Kept the code, switched off by default.
+- Why it failed:
+  - Rewrites added generic filler ("under Indian mining regulations") that matched generic chunks.
+  - The LLM guessed formal English, not the actual legal terms ("flammable" vs "inflammable", "evacuated" vs "withdrawn").
+  - It damaged questions that were already well-worded ("Who is an overman?" rank 1 → fail).
+  - One rewrite came back empty → searched an empty string (needs a fallback).
+- Next: search with BOTH the original and the rewrite and merge the results, plus the empty fallback and a stricter prompt.

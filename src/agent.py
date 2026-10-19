@@ -1,13 +1,16 @@
+import re
 import json
 from answer import client, LLM_MODEL, DOC_NAMES, page_label
 from search import search_with_neighbours
 
-def search_regulations(query):
+def search_regulations(query, sources):
     passages = search_with_neighbours(query, k=5)
-    blocks=[]
+    blocks = []
     for p in passages:
+        sources.append(p)
+        sid =len(sources)
         name = DOC_NAMES.get(p["source"], p["source"])
-        blocks.append(f"({name}, {page_label(p)})\n{p['text']}")
+        blocks.append(f"[S{sid}] ({name}, {page_label(p)})\n{p['text']}")
     return "\n\n".join(blocks)
 
 TOOLS = [
@@ -44,16 +47,30 @@ Rules:
 1. Always use the search_regulations tool before answering. Never answer from memory.
 2. For questions with several parts, search once for each part.
 3. Use ONLY information from the search results.
-4. Cite every fact with its document and pages, like (Coal Mines Regulations, 2017, pages 250-251).
+4. Cite every fact with the source ID of the passage it comes from, like [S2] or [S5]. Never write page numbers or section numbers as citations yourself.
 5. Include exact numbers, percentages, time limits and conditions. Never make up numbers.
 6. If coal mines and metal mines have DIFFERENT rules on the same point, give them in separate sections. If one law applies to all mines, state it once.
 7. If the search results do not contain the answer, say "I could not find this in the regulations."
 8. After each search, check whether the results answer exactly what was asked. A definition is not the same as an operating rule (for example, how a seam is CLASSIFIED is different from the limit at which gas counts as DETECTED). If the results don't match, search again with different words.
+9. Do not use quotation marks unless you are copying words exactly from the search results.
 """
 
 MAX_STEPS = 5
 
+def cited_sources(answer, sources):
+    ids = sorted({int(n) for n in re.findall(r"\bS(\d+)\b", answer)})
+    lines = []
+    for i in ids:
+        if 1 <= i <= len(sources):
+            p = sources[i - 1]
+            name = DOC_NAMES.get(p["source"], p["source"])
+            lines.append(f"[S{i}] {name}, {page_label(p)}")
+        else:
+            lines.append(f"[S{i}] WARNING: this source was never returned by a search")
+    return lines
+
 def run_agent(question):
+    sources = []
     messages = [
         {"role": "system", "content": AGENT_PROMPT},
         {"role": "user", "content": question},
@@ -65,7 +82,7 @@ def run_agent(question):
         msg = response.choices[0].message
 
         if not msg.tool_calls:
-            return msg.content
+            return msg.content, sources
 
         messages.append({
             "role": "assistant",
@@ -80,13 +97,19 @@ def run_agent(question):
         for tc in msg.tool_calls:
             args = json.loads(tc.function.arguments)
             print(f"  [search] {args['query']}")
-            result = search_regulations(args["query"])
+            result = search_regulations(args["query"], sources)
             for block in result.split("\n\n"):
                 print("      found:", block.split("\n")[0])
             messages.append({"role": "tool", "tool_call_id": tc.id, "content": result})
 
-    return "I could not complete this within the step limit."
+    return "I could not complete this within the step limit.", sources
+
 
 if __name__ == "__main__":
     question = input("Ask a question: ")
-    print("\n" + run_agent(question))
+    answer_text, sources = run_agent(question)
+    answer_text = answer_text.replace("【", "[").replace("】", "]")
+    print("\n" + answer_text)
+    print("\nSources:")
+    for line in cited_sources(answer_text, sources):
+        print("  " + line)

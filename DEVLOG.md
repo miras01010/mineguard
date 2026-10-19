@@ -81,3 +81,4 @@
   temperature 0 → ±0.04 noise, bigger than the gain we were chasing.
 - Decision: query rewriting rejected on evidence. Code kept, off by default.
 - "breathing sets" still the weakest question (fails with rewriting, rank 5 without).
+-The agent searched twice correctly, but (1) the gas search missed reg. 166 (an exact term buried in a mixed chunk), so prompt rule 8 couldn’t help; (2) it cited Mines Act pp. 31-32 when the search returned pp. 14-16. Invented citations need a code fix: source IDs.

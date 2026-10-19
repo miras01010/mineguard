@@ -74,3 +74,10 @@
   - It damaged questions that were already well-worded ("Who is an overman?" rank 1 → fail).
   - One rewrite came back empty → searched an empty string (needs a fallback).
 - Next: search with BOTH the original and the rewrite and merge the results, plus the empty fallback and a stricter prompt.
+
+- RRF fusion fixed the score-scale problem (better than min-distance merging),
+  but rewriting still never beat baseline 0.777.
+- Same code gave MRR 0.735 and 0.772 on two runs: LLM rewrites vary even at
+  temperature 0 → ±0.04 noise, bigger than the gain we were chasing.
+- Decision: query rewriting rejected on evidence. Code kept, off by default.
+- "breathing sets" still the weakest question (fails with rewriting, rank 5 without).

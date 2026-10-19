@@ -1,8 +1,8 @@
 import json
-from search import search_multi
+from search import search_multi, hybrid_search
 from rewrite import rewrite_query
 
-def run(k=5, rewrite=False):
+def run(k=5, rewrite=False, hybrid=False):
     with open("evals/questions.json", encoding="utf-8") as f:
         cases = json.load(f)
     rr_total=0
@@ -14,8 +14,11 @@ def run(k=5, rewrite=False):
             if rewritten:
                 queries.append(rewritten)
                 print(f"  → {rewritten}")
-        ranked = search_multi(queries, k=k)
-        found = [(meta["source"], meta["page"]) for text, meta, dist in ranked]
+        if hybrid:
+            found = [(m["source"], m["page"]) for cid, m in hybrid_search(case["question"], k=k)]
+        else:
+            ranked = search_multi(queries, k=k)
+            found = [(meta["source"], meta["page"]) for text, meta, dist in ranked]
         expected = {(a["source"], p) for a in case["answers"] for p in a["pages"]}
 
         rank = None                                                   

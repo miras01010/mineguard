@@ -1,14 +1,44 @@
+import re
+import snowballstemmer
 import chromadb
 from chunk import OVERLAP_WORDS
 from sentence_transformers import SentenceTransformer
+from rank_bm25 import BM25Okapi
 
 EMBED_MODEL = "all-MiniLM-L6-v2"
 DB_PATH = "db"
 COLLECTION = "regulations"
 
+
+
 model = SentenceTransformer(EMBED_MODEL)
 client = chromadb.PersistentClient(path=DB_PATH)
 collection = client.get_collection(COLLECTION)
+STEMMER = snowballstemmer.stemmer("english")
+
+def tokenize(text):
+    words = re.findall(r"\w+", text.lower())
+    return STEMMER.stemWords(words)
+
+_all = collection.get()
+ALL_IDS = _all["ids"]
+ID_TO_META = dict(zip(_all["ids"], _all["metadatas"]))
+bm25 = BM25Okapi([tokenize(doc) for doc in _all["documents"]])
+
+def keyword_search(question, k=10):
+    scores = bm25.get_scores(tokenize(question))
+    top = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:k]
+    return [ALL_IDS[i] for i in top]
+
+def hybrid_search(question, k=5, fetch_k=10, rrf_k=60):
+    vector_ids = search(question, k=fetch_k)["ids"][0]
+    keyword_ids = keyword_search(question, k=fetch_k)
+    scores = {}
+    for ranked_ids in (vector_ids, keyword_ids):
+        for rank, cid in enumerate(ranked_ids, start=1):
+            scores[cid] = scores.get(cid, 0) + 1/(rank+rrf_k)
+    best = sorted(scores, key=lambda cid: scores[cid], reverse=True)[:k]
+    return [(cid, ID_TO_META[cid]) for cid in best]
 
 def search(question, k=3):
     query_embedding = model.encode([question]).tolist()

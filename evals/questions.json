@@ -121,5 +121,11 @@
       {"source": "Metalliferous1961.pdf", "pages": [18, 26]},
       {"source": "Coal_Mines_Regulation_2017_Noti.pdf", "pages": [173]}
     ]
+  },
+    {
+    "question": "What is the gas detection limit for a degree two seam?",
+    "answers": [
+      {"source": "Coal_Mines_Regulation_2017_Noti.pdf", "pages": [250, 251]}
+    ]
   }
 ]

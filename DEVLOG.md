@@ -101,3 +101,12 @@
 - Known limitation: "gas detection limit for a degree two seam" still answered with the
   classification rule (0.1%) instead of the detection limit (0.5%), because embeddings
   don't retrieve reg. 166 for this phrasing. Hybrid fixes it, but lowers overall MRR.
+
+## Oct 20 (late): DEPLOYED 🚀
+- Streamlit Community Cloud. Fixes needed for deployment:
+  - Secrets: GROQ_API_KEY via Streamlit Secrets, copied into the environment in app.py.
+  - requirements.txt: portable list (pip freeze captured Windows-specific setup) + CPU-only PyTorch.
+- First attempt built the index on the server: CPU got throttled, and a rerun during the build
+  hit a deleted collection (chromadb NotFoundError, a race condition).
+- Fix: ship the prebuilt db/ (built locally) and pin the chromadb version so the format matches.
+  Also removes slow rebuilds when the app wakes from sleep.

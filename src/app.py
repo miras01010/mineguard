@@ -1,6 +1,18 @@
+import os
+from pathlib import Path
 import streamlit as st
-from agent import run_agent, cited_sources
 
+try:
+    os.environ.setdefault("GROQ_API_KEY", st.secrets["GROQ_API_KEY"])
+except Exception:
+    pass
+
+if not Path("db").exists():
+    with st.spinner("First start: building the search index (about a minute)..."):
+        from build_index import build_index
+        build_index()
+
+from agent import run_agent, cited_sources
 st.title("MineGuard")
 st.caption("Ask questions about Indian mining safety law.")
 

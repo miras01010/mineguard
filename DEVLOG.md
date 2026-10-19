@@ -94,3 +94,10 @@
   ones ("breathing sets", "fresh air" dropped), because casual words match the wrong chunks.
 - Decision: embeddings stay default; hybrid kept as an option. With only 21 questions,
   further tuning risks overfitting → grow the eval set to ~50 first.
+
+  ## Oct 20: Agent in the UI
+- Streamlit app now uses the agent: multi-search answers, [S#] citations, only cited sources shown.
+- Moved the 【】→[] cleanup into run_agent (DRY: one place, all callers get clean text).
+- Known limitation: "gas detection limit for a degree two seam" still answered with the
+  classification rule (0.1%) instead of the detection limit (0.5%), because embeddings
+  don't retrieve reg. 166 for this phrasing. Hybrid fixes it, but lowers overall MRR.

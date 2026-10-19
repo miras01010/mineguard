@@ -82,3 +82,15 @@
 - Decision: query rewriting rejected on evidence. Code kept, off by default.
 - "breathing sets" still the weakest question (fails with rewriting, rank 5 without).
 -The agent searched twice correctly, but (1) the gas search missed reg. 166 (an exact term buried in a mixed chunk), so prompt rule 8 couldn’t help; (2) it cited Mines Act pp. 31-32 when the search returned pp. 14-16. Invented citations need a code fix: source IDs.
+
+## Oct 19–20: Hybrid search experiment
+- Added eval question for the agent bug: "gas detection limit for a degree two seam" (reg. 166, p.250).
+  Baseline: FAIL. 20/21, MRR 0.740.
+- Hybrid search (BM25 keywords + embeddings, merged with RRF): still failed. 19/21, MRR 0.687.
+- Diagnosed with a test script: "seam" vs "seams" don't match in keyword search.
+  With "seams", p.250 jumped to rank 1. Confirmed the hypothesis before fixing.
+- Added stemming (snowball): degree-two question now PASSES (rank 3). But overall MRR 0.694 < 0.740.
+- Trade-off: keywords help exact-term questions ("two-hour breathing apparatus" 3→1) and hurt casual
+  ones ("breathing sets", "fresh air" dropped), because casual words match the wrong chunks.
+- Decision: embeddings stay default; hybrid kept as an option. With only 21 questions,
+  further tuning risks overfitting → grow the eval set to ~50 first.

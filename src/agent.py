@@ -82,7 +82,8 @@ def run_agent(question):
         msg = response.choices[0].message
 
         if not msg.tool_calls:
-            return msg.content, sources
+            clean = msg.content.replace("【", "[").replace("】", "]")
+            return clean, sources
 
         messages.append({
             "role": "assistant",
@@ -108,7 +109,6 @@ def run_agent(question):
 if __name__ == "__main__":
     question = input("Ask a question: ")
     answer_text, sources = run_agent(question)
-    answer_text = answer_text.replace("【", "[").replace("】", "]")
     print("\n" + answer_text)
     print("\nSources:")
     for line in cited_sources(answer_text, sources):

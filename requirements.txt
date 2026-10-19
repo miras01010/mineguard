@@ -3,7 +3,7 @@ torch
 streamlit
 pymupdf
 sentence-transformers
-chromadb
+chromadb==1.5.9
 groq
 python-dotenv
 rank-bm25

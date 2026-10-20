@@ -2,8 +2,8 @@ import json
 from search import search_multi, hybrid_search
 from rewrite import rewrite_query
 
-def run(k=5, rewrite=False, hybrid=False):
-    with open("evals/questions.json", encoding="utf-8") as f:
+def run(k=5, rewrite=False, hybrid=False, path="evals/questions.json"):
+    with open(path, encoding="utf-8") as f:
         cases = json.load(f)
     rr_total=0
     hits = 0
@@ -39,4 +39,9 @@ def run(k=5, rewrite=False, hybrid=False):
     print(f"MRR: {rr_total / len(cases):.3f}")
 
 if __name__ == "__main__":
-    run()
+    for hybrid in (False, True):
+        print(f"\n##### hybrid={hybrid} #####")
+        print("=== Hand-written ===")
+        run(hybrid=hybrid)
+        print("\n=== Synthetic ===")
+        run(path="evals/synthetic.json", hybrid=hybrid)
